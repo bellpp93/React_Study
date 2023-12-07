@@ -2,6 +2,8 @@ import React, { Component } from "react";
 
 class TOC extends Component {
   render() {
+    // 함수의 호출 순서를 살펴보기 위해 로그 추가
+    console.log("TOC render");
     var lists = [];
     var data = this.props.data;
     var i = 0;
