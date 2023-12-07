@@ -14,7 +14,7 @@ class App extends Component {
     super(props);
     this.state = {
       // 현재 페이지 구분하기 위해 mode 추가
-      mode: "welcome",
+      mode: "read",
       subject: { title: "WEB", sub: "World Wide Web!" },
       // welcome 상태일 때 콘텐츠 영역에 표시할 텍스트
       welcome: { title: "Welcome", desc: "Hello, React!!" },
@@ -51,7 +51,15 @@ class App extends Component {
               onClick={function (e) {
                 console.log(e);
                 e.preventDefault();
-              }}
+                // Uncaught TypeError: Cannot read properties of undefined (reading 'state')
+                // this.state.mode = "welcome";
+                /**
+                 * state값을 올바르게 변경하기 위해서 해야 할 2가지
+                 * 1. 함수 뒤에 .bind(this) 추가하기
+                 * 2. this.setState 함수를 호출해서 state값 변경하기
+                 */
+                this.setState({ mode: "welcome" });
+              }.bind(this)}
             >
               {this.state.subject.title}
             </a>
