@@ -40,24 +40,27 @@ class App extends Component {
     }
     return (
       <div className="App">
-        {/*<Subject
+        <Subject
           title={this.state.subject.title}
           sub={this.state.subject.sub}
-        ></Subject>*/}
-        <header>
+          onChangePage={function () {
+            this.setState({ mode: "welcome" });
+          }.bind(this)}
+        ></Subject>
+        {/* <header>
           <h1>
             <a
               href="/"
               onClick={function (e) {
                 console.log(e);
                 e.preventDefault();
-                // Uncaught TypeError: Cannot read properties of undefined (reading 'state')
-                // this.state.mode = "welcome";
-                /**
-                 * state값을 올바르게 변경하기 위해서 해야 할 2가지
-                 * 1. 함수 뒤에 .bind(this) 추가하기
-                 * 2. this.setState 함수를 호출해서 state값 변경하기
-                 */
+                Uncaught TypeError: Cannot read properties of undefined (reading 'state')
+                this.state.mode = "welcome";
+                
+                 state값을 올바르게 변경하기 위해서 해야 할 2가지
+                 1. 함수 뒤에 .bind(this) 추가하기
+                 2. this.setState 함수를 호출해서 state값 변경하기
+                 
                 this.setState({ mode: "welcome" });
               }.bind(this)}
             >
@@ -65,7 +68,7 @@ class App extends Component {
             </a>
           </h1>
           {this.state.subject.sub}
-        </header>
+        </header> */}
         <TOC data={this.state.contents}></TOC>
         <Content title={_title} desc={_desc}></Content>
       </div>
