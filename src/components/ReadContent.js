@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-class Content extends Component {
+class ReadContent extends Component {
   render() {
     // 함수의 호출 순서를 살펴보기 위해 로그 추가
     console.log("Content render");
@@ -13,4 +13,4 @@ class Content extends Component {
   }
 }
 
-export default Content;
+export default ReadContent;
