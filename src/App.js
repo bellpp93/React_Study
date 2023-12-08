@@ -15,6 +15,7 @@ class App extends Component {
     this.state = {
       // 현재 페이지 구분하기 위해 mode 추가
       mode: "read",
+      selected_content_id: 2,
       subject: { title: "WEB", sub: "World Wide Web!" },
       // welcome 상태일 때 콘텐츠 영역에 표시할 텍스트
       welcome: { title: "Welcome", desc: "Hello, React!!" },
@@ -35,8 +36,16 @@ class App extends Component {
       _title = this.state.welcome.title;
       _desc = this.state.welcome.desc;
     } else if (this.state.mode === "read") {
-      _title = this.state.contents[0].title;
-      _desc = this.state.contents[0].desc;
+      var i = 0;
+      while (i < this.state.contents.length) {
+        var data = this.state.contents[i];
+        if (data.id === this.state.selected_content_id) {
+          _title = data.title;
+          _desc = data.desc;
+          break;
+        }
+        i = i + 1;
+      }
     }
     return (
       <div className="App">
@@ -70,8 +79,11 @@ class App extends Component {
           {this.state.subject.sub}
         </header> */}
         <TOC
-          onChangePage={function () {
-            this.setState({ mode: "read" });
+          onChangePage={function (id) {
+            this.setState({
+              mode: "read",
+              selected_content_id: Number(id),
+            });
           }.bind(this)}
           data={this.state.contents}
         ></TOC>
