@@ -71,11 +71,6 @@ class App extends Component {
         <CreateContent
           onSubmit={function (_title, _desc) {
             this.max_content_id = this.max_content_id + 1;
-            /**
-             * push를 사용하는 구현 방식은 나중에 이랙트 앱의 성능을 개선할 때 굉장히 까다로운 반면,
-             * concat을 사용하면 앱의 성능을 개선하기가 굉장히 쉬워지기 때문에 이 방법을 쓰는 것이 더 좋다.
-             * 기존에 concat을 사용하는 부분을 Array.from으로 구현할 수 있다.
-             */
             var _contents = Array.from(this.state.contents);
             _contents.push({
               id: this.max_content_id,
@@ -161,9 +156,28 @@ class App extends Component {
         ></TOC>
         <Control
           onChangeMode={function (_mode) {
-            this.setState({
-              mode: _mode,
-            });
+            if (_mode === "delete") {
+              if (window.confirm("really?")) {
+                var _contents = Array.from(this.state.contents);
+                var i = 0;
+                while (i < _contents.length) {
+                  if (_contents[i].id === this.state.selected_content_id) {
+                    _contents.splice(i, 1);
+                    break;
+                  }
+                  i = i + 1;
+                }
+                this.setState({
+                  mode: "welcome",
+                  contents: _contents,
+                });
+                alert("deleted!");
+              }
+            } else {
+              this.setState({
+                mode: _mode,
+              });
+            }
           }.bind(this)}
         ></Control>
         {this.getContent()}
