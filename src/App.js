@@ -74,14 +74,18 @@ class App extends Component {
             /**
              * push를 사용하는 구현 방식은 나중에 이랙트 앱의 성능을 개선할 때 굉장히 까다로운 반면,
              * concat을 사용하면 앱의 성능을 개선하기가 굉장히 쉬워지기 때문에 이 방법을 쓰는 것이 더 좋다.
+             * 기존에 concat을 사용하는 부분을 Array.from으로 구현할 수 있다.
              */
-            var _contents = this.state.contents.concat({
+            var _contents = Array.from(this.state.contents);
+            _contents.push({
               id: this.max_content_id,
               title: _title,
               desc: _desc,
             });
             this.setState({
               contents: _contents,
+              mode: "read",
+              selected_content_id: this.max_content_id,
             });
             console.log(_title, _desc);
           }.bind(this)}
@@ -92,17 +96,20 @@ class App extends Component {
       _article = (
         <UpdateContent
           data={_content}
-          onSubmit={function (_title, _desc) {
-            this.max_content_id = this.max_content_id + 1;
-            var _contents = this.state.contents.concat({
-              id: this.max_content_id,
-              title: _title,
-              desc: _desc,
-            });
+          onSubmit={function (_id, _title, _desc) {
+            var _contents = Array.from(this.state.contents);
+            var i = 0;
+            while (i < _contents.length) {
+              if (_contents[i].id === _id) {
+                _contents[i] = { id: _id, title: _title, desc: _desc };
+                break;
+              }
+              i = i + 1;
+            }
             this.setState({
               contents: _contents,
+              mode: "read",
             });
-            console.log(_title, _desc);
           }.bind(this)}
         ></UpdateContent>
       );
