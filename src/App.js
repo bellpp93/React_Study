@@ -14,6 +14,8 @@ class App extends Component {
   */
   constructor(props) {
     super(props);
+    // id 값을 3으로 지정, 이 값은 현재 state.contents 배열에 있는 id 값 중 가장 큰 값과 같아야 한다.
+    this.max_content_id = 3;
     this.state = {
       // 현재 페이지 구분하기 위해 mode 추가
       mode: "read",
@@ -52,14 +54,35 @@ class App extends Component {
       }
       _article = <ReadContent title={_title} desc={_desc}></ReadContent>;
     } else if (this.state.mode === "create") {
+      // _article = (
+      //   <CreateContent
+      //     onSubmit={function (_title, _desc) {
+      //       console.log(_title, _desc);
+      //     }.bind(this)}
+      //   ></CreateContent>
+      // );
       _article = (
         <CreateContent
           onSubmit={function (_title, _desc) {
+            this.max_content_id = this.max_content_id + 1;
+            /**
+             * push를 사용하는 구현 방식은 나중에 이랙트 앱의 성능을 개선할 때 굉장히 까다로운 반면,
+             * concat을 사용하면 앱의 성능을 개선하기가 굉장히 쉬워지기 때문에 이 방법을 쓰는 것이 더 좋다.
+             */
+            var _contents = this.state.contents.concat({
+              id: this.max_content_id,
+              title: _title,
+              desc: _desc,
+            });
+            this.setState({
+              contents: _contents,
+            });
             console.log(_title, _desc);
           }.bind(this)}
         ></CreateContent>
       );
     }
+    console.log("render", this);
     return (
       <div className="App">
         <Subject
